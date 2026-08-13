@@ -4,417 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RoScales — Grow Your Business Online</title>
-<style>
-  :root {
-    --bg: #05050b;
-    --violet: #8b5cf6;
-    --pink: #ec4899;
-    --cyan: #22d3ee;
-    --text: #f4f4f8;
-    --text-dim: #a3a8c2;
-    --glass: rgba(255, 255, 255, 0.04);
-    --glass-border: rgba(255, 255, 255, 0.09);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    overflow-x: hidden;
-    position: relative;
-  }
-  a { color: inherit; }
-
-  /* ambient background */
-  .bg-grid {
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
-    z-index: 0;
-    pointer-events: none;
-  }
-  .blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.55;
-    z-index: 0;
-    pointer-events: none;
-  }
-  .blob-1 {
-    width: 500px; height: 500px;
-    top: -150px; left: -100px;
-    background: radial-gradient(circle, var(--violet), transparent 70%);
-    animation: float1 22s ease-in-out infinite alternate;
-  }
-  .blob-2 {
-    width: 460px; height: 460px;
-    top: 20%; right: -160px;
-    background: radial-gradient(circle, var(--pink), transparent 70%);
-    animation: float2 26s ease-in-out infinite alternate;
-  }
-  .blob-3 {
-    width: 420px; height: 420px;
-    bottom: -140px; left: 30%;
-    background: radial-gradient(circle, var(--cyan), transparent 70%);
-    animation: float3 30s ease-in-out infinite alternate;
-  }
-  @keyframes float1 {
-    0% { transform: translate(0,0) scale(1); }
-    100% { transform: translate(80px, 60px) scale(1.15); }
-  }
-  @keyframes float2 {
-    0% { transform: translate(0,0) scale(1); }
-    100% { transform: translate(-70px, 80px) scale(1.1); }
-  }
-  @keyframes float3 {
-    0% { transform: translate(0,0) scale(1); }
-    100% { transform: translate(60px, -50px) scale(1.2); }
-  }
-
-  #cursor-glow {
-    position: fixed;
-    width: 500px; height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%);
-    mix-blend-mode: screen;
-    pointer-events: none;
-    z-index: 1;
-    transform: translate(-50%, -50%);
-    transition: opacity 0.3s;
-    opacity: 0;
-  }
-
-  header, .hero, section.packs, footer { position: relative; z-index: 2; }
-
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 6vw;
-    position: sticky;
-    top: 0;
-    background: rgba(5, 5, 11, 0.55);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--glass-border);
-    z-index: 10;
-  }
-  .logo {
-    font-size: 1.35rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-  }
-  .logo .grad {
-    background: linear-gradient(90deg, var(--violet), var(--pink), var(--cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 18px rgba(139,92,246,0.35));
-  }
-  nav a {
-    text-decoration: none;
-    color: var(--text-dim);
-    margin-left: 30px;
-    font-size: 0.95rem;
-    transition: color 0.2s;
-  }
-  nav a:hover { color: var(--text); }
-
-  .hero {
-    text-align: center;
-    padding: 130px 6vw 100px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    padding: 7px 16px;
-    border-radius: 999px;
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    animation: fadeUp 0.8s ease both;
-  }
-  .eyebrow .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: linear-gradient(90deg, var(--violet), var(--cyan));
-    box-shadow: 0 0 10px var(--violet);
-  }
-  .hero h1 {
-    margin-top: 26px;
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.08;
-    animation: fadeUp 0.8s ease 0.1s both;
-  }
-  .hero h1 .grad {
-    background: linear-gradient(90deg, var(--violet), var(--pink) 50%, var(--cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    background-size: 200% auto;
-    animation: shine 6s linear infinite;
-  }
-  @keyframes shine {
-    to { background-position: 200% center; }
-  }
-  .hero p {
-    margin-top: 22px;
-    font-size: 1.15rem;
-    color: var(--text-dim);
-    animation: fadeUp 0.8s ease 0.2s both;
-  }
-  .hero .cta {
-    display: inline-block;
-    margin-top: 38px;
-    background: linear-gradient(90deg, var(--violet), var(--pink));
-    color: #fff;
-    font-weight: 700;
-    padding: 15px 34px;
-    border-radius: 10px;
-    text-decoration: none;
-    box-shadow: 0 8px 30px -6px rgba(139, 92, 246, 0.55);
-    transition: transform 0.2s, box-shadow 0.2s;
-    animation: fadeUp 0.8s ease 0.3s both;
-  }
-  .hero .cta:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 40px -6px rgba(236, 72, 153, 0.6);
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  section.packs {
-    padding: 40px 6vw 120px;
-    max-width: 1140px;
-    margin: 0 auto;
-  }
-  section.packs h2 {
-    text-align: center;
-    font-size: 2.1rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 12px;
-  }
-  section.packs > p.sub {
-    text-align: center;
-    color: var(--text-dim);
-    margin-bottom: 60px;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 26px;
-  }
-  @media (max-width: 900px) {
-    .grid { grid-template-columns: 1fr; }
-    nav a { margin-left: 16px; }
-    .hero { padding: 100px 6vw 70px; }
-  }
-
-  .card {
-    background: var(--glass);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 18px;
-    padding: 34px 28px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-  }
-  .card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(139, 92, 246, 0.4);
-    box-shadow: 0 20px 50px -20px rgba(139, 92, 246, 0.35);
-  }
-  .card.featured {
-    border: 1px solid transparent;
-    background:
-      linear-gradient(var(--bg), var(--bg)) padding-box,
-      linear-gradient(135deg, var(--violet), var(--pink), var(--cyan)) border-box;
-    background-color: rgba(20, 14, 35, 0.55);
-  }
-  .card.featured:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 24px 60px -18px rgba(236, 72, 153, 0.45);
-  }
-  .badge {
-    position: absolute;
-    top: -13px;
-    right: 24px;
-    background: linear-gradient(90deg, var(--violet), var(--pink));
-    color: #fff;
-    font-size: 0.72rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    padding: 5px 12px;
-    border-radius: 999px;
-    box-shadow: 0 4px 16px -2px rgba(236, 72, 153, 0.6);
-  }
-  .card h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-  }
-  .price {
-    margin-top: 14px;
-    font-size: 2.3rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    background: linear-gradient(90deg, #fff, #d8d3ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .card.featured .price {
-    background: linear-gradient(90deg, var(--violet), var(--pink));
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-  .price small {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-dim);
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    background: none;
-  }
-  .card p.desc {
-    margin-top: 14px;
-    color: var(--text-dim);
-    font-size: 0.95rem;
-    min-height: 44px;
-  }
-  .card ul {
-    list-style: none;
-    margin-top: 20px;
-    flex-grow: 1;
-  }
-  .card ul li {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    font-size: 0.92rem;
-    color: var(--text-dim);
-    margin-bottom: 10px;
-  }
-  .card ul li::before {
-    content: "✓";
-    background: linear-gradient(90deg, var(--violet), var(--cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  .buy-btn {
-    margin-top: 24px;
-    width: 100%;
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid var(--glass-border);
-    background: transparent;
-    color: var(--text);
-    font-size: 0.98rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-  }
-  .card.featured .buy-btn {
-    background: linear-gradient(90deg, var(--violet), var(--pink));
-    border-color: transparent;
-    color: #fff;
-    box-shadow: 0 8px 26px -8px rgba(139, 92, 246, 0.7);
-  }
-  .buy-btn:hover {
-    border-color: var(--violet);
-    transform: translateY(-1px);
-  }
-  .card.featured .buy-btn:hover {
-    box-shadow: 0 10px 30px -6px rgba(236, 72, 153, 0.75);
-  }
-
-  footer {
-    border-top: 1px solid var(--glass-border);
-    padding: 44px 6vw;
-    text-align: center;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-  }
-  footer a {
-    background: linear-gradient(90deg, var(--violet), var(--cyan));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-decoration: none;
-    font-weight: 700;
-  }
-
-  /* contact toast */
-  #toast {
-    position: fixed;
-    left: 50%;
-    bottom: 32px;
-    transform: translateX(-50%) translateY(20px);
-    background: rgba(15, 12, 28, 0.85);
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    color: var(--text);
-    padding: 16px 22px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    box-shadow: 0 16px 40px -12px rgba(139, 92, 246, 0.45);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s, transform 0.25s;
-    z-index: 100;
-    max-width: 90vw;
-  }
-  #toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
-  }
-  #toast a {
-    background: linear-gradient(90deg, var(--violet), var(--pink));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 700;
-    text-decoration: none;
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="bg-grid"></div>
+<div class="bg-grain"></div>
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 <div class="blob blob-3"></div>
 <div id="cursor-glow"></div>
 
+<div class="particles">
+  <span></span><span></span><span></span><span></span><span></span>
+  <span></span><span></span><span></span><span></span><span></span>
+</div>
+
 <header>
   <div class="logo">Ro<span class="grad">Scales</span></div>
   <nav>
     <a href="#packs">Packs</a>
+    <a href="#how">How It Works</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#faq">FAQ</a>
     <a href="mailto:readrew2013@gmail.com">Contact</a>
   </nav>
 </header>
@@ -424,9 +36,23 @@
   <h1>Scale your business <span class="grad">online</span>, the right way</h1>
   <p>RoScales helps small businesses grow their online presence — from a clear-eyed website review to full-blown content and advertising management.</p>
   <a href="#packs" class="cta">See Packs</a>
+  <div class="scroll-cue"><span></span></div>
 </section>
 
-<section class="packs" id="packs">
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Website Analysis</span><span>&bull;</span>
+    <span>Organic Content</span><span>&bull;</span>
+    <span>Website Makeovers</span><span>&bull;</span>
+    <span>Paid Advertising</span><span>&bull;</span>
+    <span>Website Analysis</span><span>&bull;</span>
+    <span>Organic Content</span><span>&bull;</span>
+    <span>Website Makeovers</span><span>&bull;</span>
+    <span>Paid Advertising</span><span>&bull;</span>
+  </div>
+</div>
+
+<section class="packs reveal" id="packs">
   <h2>Packs</h2>
   <p class="sub">Pick the level of support that fits where your business is right now.</p>
 
@@ -475,32 +101,97 @@
   </div>
 </section>
 
+<section class="how reveal" id="how">
+  <h2>How It Works</h2>
+  <p class="sub">A simple process from first look to ongoing growth.</p>
+
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h3>Book a Pack</h3>
+      <p>Pick the level of support that matches where your business is today — no long contracts to figure out first.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h3>Get the Plan</h3>
+      <p>You get a clear breakdown of what's being fixed, created, or promoted — no jargon, no guesswork.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h3>We Get to Work</h3>
+      <p>Website fixes, content, or ad campaigns get built and shipped, with regular updates along the way.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <h3>You Keep Growing</h3>
+      <p>Ongoing packs mean your content and ads keep running month over month, not a one-off project that stalls.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reviews reveal" id="reviews">
+  <h2>What Clients Say</h2>
+  <span class="example-badge">Example client feedback — illustrative, real reviews coming soon</span>
+
+  <div class="review-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"The website analysis gave us a clear list of fixes we didn't know we needed — first report that actually made sense to act on."</p>
+      <div class="review-author">Marcus V. <span>Marketing Agency Owner</span></div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★☆</div>
+      <p>"Handing off our content each month freed up so much time. Consistent posting finally happens without us thinking about it."</p>
+      <div class="review-author">Elena R. <span>Boutique Retail Owner</span></div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"The makeover plus ads combo just made sense — one person handling design and promotion instead of juggling three vendors."</p>
+      <div class="review-author">David K. <span>Operations Director</span></div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"Clear communication, no jargon, and the site actually looks like us now."</p>
+      <div class="review-author">Sarah J. <span>Independent Consultant</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="faq reveal" id="faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <div class="faq-list">
+    <details class="faq-item">
+      <summary>Do I need to commit to a long contract?</summary>
+      <p>No. The monthly packs run month to month — you can stop whenever it's no longer a fit.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What do I get with the Website Analysis?</summary>
+      <p>A full written report covering design, speed, UX, and messaging — with clear, prioritized fixes you can act on right away.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I upgrade from one pack to another later?</summary>
+      <p>Yes. Plenty of people start with the Website Analysis, then move into Organic Growth or the Full Makeover once they know exactly what needs work.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How do I get started?</summary>
+      <p>Reach out directly by email and let's talk about which pack fits your business.</p>
+    </details>
+  </div>
+</section>
+
+<section class="final-cta reveal">
+  <h2>Ready to scale your business online?</h2>
+  <p>Pick a pack, or reach out and we'll figure out the right fit together.</p>
+  <a href="mailto:readrew2013@gmail.com" class="cta">Get In Touch</a>
+</section>
+
 <footer>
   RoScales &middot; Get in touch: <a href="mailto:readrew2013@gmail.com">readrew2013@gmail.com</a>
 </footer>
 
 <div id="toast"></div>
 
-<script>
-  const toast = document.getElementById('toast');
-  let hideTimer;
-  document.querySelectorAll('.buy-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      toast.innerHTML = 'To buy the <strong>' + btn.dataset.pack + '</strong> pack — contact me: <a href="mailto:readrew2013@gmail.com">readrew2013@gmail.com</a>';
-      toast.classList.add('show');
-      clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => toast.classList.remove('show'), 6000);
-    });
-  });
-
-  const glow = document.getElementById('cursor-glow');
-  window.addEventListener('mousemove', (e) => {
-    glow.style.opacity = '1';
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-  });
-  window.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
