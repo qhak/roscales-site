@@ -9,46 +9,6 @@ document.querySelectorAll('.buy-btn').forEach(btn => {
   });
 });
 
-const glow = document.getElementById('cursor-glow');
-window.addEventListener('mousemove', (e) => {
-  glow.style.opacity = '1';
-  glow.style.left = e.clientX + 'px';
-  glow.style.top = e.clientY + 'px';
-});
-window.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
-
-const sparkles = ['✨', '💫', '⭐', '🌟'];
-let lastSparkle = 0;
-window.addEventListener('mousemove', (e) => {
-  const now = Date.now();
-  if (now - lastSparkle < 60) return;
-  lastSparkle = now;
-  const el = document.createElement('span');
-  el.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
-  el.style.position = 'fixed';
-  el.style.left = e.clientX + 'px';
-  el.style.top = e.clientY + 'px';
-  el.style.pointerEvents = 'none';
-  el.style.zIndex = '999';
-  el.style.fontSize = (12 + Math.random() * 10) + 'px';
-  el.style.transition = 'transform 0.7s ease, opacity 0.7s ease';
-  document.body.appendChild(el);
-  requestAnimationFrame(() => {
-    el.style.transform = 'translateY(-30px) rotate(' + (Math.random() * 90 - 45) + 'deg)';
-    el.style.opacity = '0';
-  });
-  setTimeout(() => el.remove(), 700);
-});
-
-const hitCounter = document.getElementById('hitCounterDigits');
-if (hitCounter) {
-  let count = parseInt(hitCounter.dataset.count, 10);
-  setInterval(() => {
-    count += Math.floor(Math.random() * 3) + 1;
-    hitCounter.textContent = String(count).padStart(7, '0').split('').join(' ');
-  }, 1000);
-}
-
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
