@@ -40,6 +40,15 @@ window.addEventListener('mousemove', (e) => {
   setTimeout(() => el.remove(), 700);
 });
 
+const hitCounter = document.getElementById('hitCounterDigits');
+if (hitCounter) {
+  let count = parseInt(hitCounter.dataset.count, 10);
+  setInterval(() => {
+    count += Math.floor(Math.random() * 3) + 1;
+    hitCounter.textContent = String(count).padStart(7, '0').split('').join(' ');
+  }, 1000);
+}
+
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
